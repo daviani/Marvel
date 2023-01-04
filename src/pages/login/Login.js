@@ -50,17 +50,22 @@ const Login = () => {
             
             <Formik
               initialValues={{
-                email: 'test@test.com', password: 'test123',
+                email: '', password: '',
               }}
-              validationSchema={Yup.object().shape({
-                email: Yup.string().
-                  email('Must be a valid email').
-                  max(255).
-                  required('Email is required'), password: Yup.string().
-                  max(255).
-                  required('Password is required'),
-              })}
+              validationSchema={Yup.object().shape(
+//                {
+//                email: Yup.string().
+//                  email('Must be a valid email').
+//                  max(255).
+//                  required('Email is required'), password: Yup.string().
+//                  max(255).
+//                  required('Password is required'),
+//              }
+              )}
               onSubmit={(model) => {
+                console.log(
+                  'loginpage model___________________________________________',
+                  model);
                 onLogin(model);
               }}
             >
@@ -89,7 +94,7 @@ const Login = () => {
                   name="email"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
+                  //                  type="email"
                   value={values.email}
                   variant="outlined"
                 />

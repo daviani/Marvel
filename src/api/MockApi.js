@@ -1,3 +1,5 @@
+import JWT from 'expo-jwt';
+
 export default class MockApi {
   constructor(defaultUsers = [], latency = 500) {
     this.defaultUsers = defaultUsers;
@@ -20,18 +22,21 @@ export default class MockApi {
     return localStorage.setItem('mockApiUsers', JSON.stringify(users));
   }
   
-  signInUser(username, password) {
+  signInUser(firstName, email, password) {
     return new Promise(resolve => {
       setTimeout(() => {
-        let apiUsers = [];
-        apiUsers = this.getAllUsers();
-        let user = apiUsers.find((user) => user.username === username);
+        let apiUsers = this.getAllUsers();
+        console.log(apiUsers);
+        let user = apiUsers.find((user) => user.username === email);
+        const key = process.env.REACT_APP_KEY_SECURE;
         if (user) {
           resolve({
             error: true, message: 'There is a user who have same credentials',
           });
         } else {
-          apiUsers.push({username, password});
+          apiUsers.push({
+            firstName, email, password: JWT.encode(password, key),
+          });
           this.setUsers(apiUsers);
           resolve({error: false});
         }
@@ -39,7 +44,7 @@ export default class MockApi {
     });
   }
   
-  authentificate(username, password) {
+  authentificate(email, password) {
     let users = this.getAllUsers();
     if (users.length === 0) {
       throw new Error('Empty User Store');
@@ -47,8 +52,13 @@ export default class MockApi {
     return new Promise((resolve) => {
       setTimeout(() => {
         users = this.getAllUsers();
+        const key = process.env.REACT_APP_KEY_SECURE;
+        const encryptedPassword = JWT.encode(password, key);
         let user = users.find(
-          (user) => user.username === username && user.password === password);
+          (user) => user.email === email && user.password ===
+            encryptedPassword,
+        );
+        
         if (user) {
           resolve({error: false, data: users});
         } else {

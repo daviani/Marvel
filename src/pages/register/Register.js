@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {Alert, AlertTitle} from '@material-ui/lab';
+
 import {Formik} from 'formik';
 import React, {useState} from 'react';
 import {
@@ -84,25 +85,26 @@ const Register = () => {
                         policy: false,
                       }}
                       validationSchema={Yup.object().shape({
-                        email: Yup.string().
-                          email('Must be a valid email').
-                          max(255).
-                          required('Email is required'),
-                        firstName: Yup.string().
-                          max(255).
-                          required('First name is required'),
-                        lastName: Yup.string().
-                          max(255).
-                          required('Last name is required'),
-                        password: Yup.string().
-                          max(255).
-                          required('password is required'),
-                        policy: Yup.boolean().
-                          oneOf([true], 'This field must be checked'),
+//                        email: Yup.string().
+//                          email('Must be a valid email').
+//                          max(255).
+//                          required('Email is required'),
+//                        firstName: Yup.string().
+//                          max(255).
+//                          required('First name is required'),
+//                        lastName: Yup.string().
+//                          max(255).
+//                          required('Last name is required'),
+//                        password: Yup.string().
+//                          max(255).
+//                          required('password is required'),
+//                        policy: Yup.boolean().
+//                          oneOf([true], 'This field must be checked'),
                       })}
                       onSubmit={(model) => {
-                        const {email, password} = model;
-                        signIn({email, password});
+                        const {firstName, email, password} = model;
+                        signIn({firstName, email, password});
+                        navigate(ROUTES.Login);
                       }}>
                       
                       {({
@@ -147,15 +149,15 @@ const Register = () => {
                             variant="outlined"
                           />
                           <TextField
-                            error={Boolean(touched.email && errors.email)}
+                            //                            error={Boolean(touched.email && errors.email)}
                             fullWidth
-                            helperText={touched.email && errors.email}
+                            //                            helperText={touched.email && errors.email}
                             label="Email Address"
                             margin="normal"
                             name="email"
                             onBlur={handleBlur}
                             onChange={handleChange}
-                            type="email"
+                            //                            type="email"
                             value={values.email}
                             variant="outlined"
                           />

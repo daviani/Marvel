@@ -1,4 +1,5 @@
 import {
+  Box,
   Collapse,
   Divider,
   Drawer,
@@ -8,7 +9,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
 import {withStyles} from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -21,9 +21,10 @@ import MenuItem from '../../data/menu';
 import {sidebarStyles} from './style';
 
 const Sidebar = ({classes, open, handleDrawerClose}) => {
-  const [selectedItem, setSelectedItem] = useState('ElectionS');
+  const [selectedItem, setSelectedItem] = useState('');
   const [subOpen, setSubOpen] = useState({});
   
+  console.log(selectedItem, subOpen);
   const handleClick = (key) => {
     setSubOpen({[key]: !subOpen[key] || false});
   };
@@ -40,8 +41,7 @@ const Sidebar = ({classes, open, handleDrawerClose}) => {
     open={open}
   >
     <div className={classes.toolbarIcon}>
-      <h2 className={classes.logo} spacing={2}>DevJS&nbsp;</h2>
-      <Avatar size={40} src="/logo.png"/>
+      <h2 className={classes.logo} spacing={2}>Marvel APP</h2>
       <div className={classes.toolbarIconColse}>
         <IconButton onClick={handleDrawerClose} className={classes.IconColse}>
           <MenuIcon/>
@@ -50,43 +50,39 @@ const Sidebar = ({classes, open, handleDrawerClose}) => {
     </div>
     <Divider/>
     <List>
-      {MenuItem.map((item) => (
-        <div key={item.key}>
-          <ListItem button key={item.key}
-                    selected={item.key === selectedItem}
-                    onClick={event => handleClick(
-                      item.key)}
-                    className={classes.Item}
-          >
-            <ListItemIcon
-              className={classes.listItem}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.label}/>
-            {subOpen[item.key] ? <ArrowDropDownIcon/> : <ArrowRightIcon/>}
-          </ListItem>
-          
-          <Collapse in={subOpen[item.key]} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {item.items.map((subitem) => (
+      {MenuItem.map((item) => (<div key={item.key}>
+        <ListItem button key={item.key}
+                  selected={item.key === selectedItem}
+                  onClick={event => handleClick(item.key)}
+                  className={classes.Item}
+        >
+          <ListItemIcon
+            className={classes.listItem}>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.label}/>
+          {subOpen[item.key] ? <ArrowDropDownIcon/> : <ArrowRightIcon/>}
+        </ListItem>
+        
+        <Collapse in={subOpen[item.key]} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {item.items.map((subitem) => (
+              <Box ml={2} key={subitem.key}
+              >
                 <ListItem button
-                          key={subitem.key}
                           component={Link}
                           to={subitem.route}
                           selected={subitem.key === selectedItem}
                           onClick={event => handleSelect(subitem.key)}
                           classes={{selected: classes.selected}}
                           className={classes.ItemNested}
-                
                 >
-                  
                   <ListItemIcon
                     className={classes.listItem}>{subitem.icon}</ListItemIcon>
                   <ListItemText primary={subitem.label}/>
                 </ListItem>
-              ))}
-            </List>
-          </Collapse>
-        </div>
-      ))}
+              </Box>))}
+          </List>
+        </Collapse>
+      </div>))}
     </List>
     <Divider/>
   </Drawer>);

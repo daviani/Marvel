@@ -88,5 +88,9 @@ export const topAppBarStyles = theme => ({
       cursor: 'pointer',
     },
   },
+  mainLogo: {
+    height: '40px',
+    marginLeft: '20px',
+  },
   
 });

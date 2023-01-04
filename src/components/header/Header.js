@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext';
+import mainLogo from '../../image/Marvel_Logo.svg.png';
 import {topAppBarStyles} from './style';
 
 const useStyles = makeStyles(topAppBarStyles);
@@ -32,6 +33,11 @@ const Header = ({open, handleDrawerOpen}) => {
       >
         <MenuIcon/>
       </IconButton>
+      
+      <Box>
+        <img className={classes.mainLogo} src={mainLogo} alt="mainlogo"/>
+      </Box>
+      {/* TODOS fix align  */}
       <Typography
         component="h1"
         variant="h6"
@@ -39,7 +45,7 @@ const Header = ({open, handleDrawerOpen}) => {
         noWrap
         className={classes.title}
       >
-        Application
+      
       </Typography>
       <AuthContext.Consumer>
         {({authorize, onLogout}) => (<>
