@@ -205,7 +205,7 @@ const Register = () => {
                               type="submit"
                               variant="contained"
                             >
-                              Sign up now
+                              Sign up noww
                             </Button>
                           </Box>
                         </Box>
